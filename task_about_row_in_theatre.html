@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head></head>
+<body>
+<h1>Interview test</h1>
+<p>You have to implement missing part of the application (`Parallel`) that making the code to be compiled and executed
+    without exceptions and assertions in browser console.</p>
+<script>
+    /**
+     *
+      * @param N {number}
+     * @param S {srting}
+     * @returns {number}
+     */
+    function solution(N, S) {
+        // create map for seats, lke it is 1 st seat in row, and so on
+        var mapObj = {
+            A: 1,
+            B: 2,
+            C: 3,
+            D: 4,
+            E: 5,
+            F: 6,
+            G: 7,
+            H: 8,
+            J: 9,
+            K: 10
+        };
+        //create a row of sits with individual configurations, 3 seats next 4 seats then again 3 seats
+        var Arr = [[1, 2, 3], [4, 5, 6, 7], [8, 9, 10]];
+        var resArr = [];
+        // filling array that that has flexible row count, like whole room in theatre;
+        for (var j = 1; j <= N; j++) {
+            resArr.push(Arr);
+        }
+
+        var str = S.split(' ');
+        // setting occupied seats in seats array
+        str.forEach(function (elem) {
+            var row = resArr[elem[0] - 1]; // Row starts from 1 array start from 0
+            var seat = mapObj[elem[1]];
+            if (0 <= seat && seat <= 3) row[0][seat - 1] = null; // Adjusting seat number to number in array [seat -1]...
+            if (4 <= seat && seat <= 7) row[1][seat - 4] = null; //  seat number statrts from 4 , but array items start from 0
+            if (8 <= seat && seat <= 10) row[2][seat - 8] = null;//  seat number statrts from 8 , but array items start from 0
+        });
+        console.log(resArr);
+
+        var seatCounter = 0;
+        // cheking can i put in place family from 3 person
+        resArr.forEach(function (elem) {
+            var ar1 = elem[0].sort(function (a, b) { // sorting array of seats to make occupied seats at the beginning of array
+                if (a < b) return -1;
+                if (a > b) return 1;
+            });
+            if (ar1[0] !== null) seatCounter++; // conditions for each seats type
+            var ar2 = elem[1].sort(function (a, b) {
+                if (a < b) return -1;
+                if (a > b) return 1;
+            });
+            if (ar2[0] !== null && ar2[1] !== null) seatCounter++; // conditions for each seats type
+            var ar3 = elem[2].sort(function (a, b) {
+                if (a < b) return -1;
+                if (a > b) return 1;
+            });
+            if (ar3[0] !== null) seatCounter++; // conditions for each seats type
+        });
+        // return seat count for 3 person family
+        console.log(seatCounter);
+        return seatCounter
+    }
+    solution(2, '1A, 2B, 2D');
+
+
+</script>
+
+</body>
+</html>
